@@ -74,3 +74,5 @@ _ReSharper*/
 # OS
 Thumbs.db
 .DS_Store
+
+.fake

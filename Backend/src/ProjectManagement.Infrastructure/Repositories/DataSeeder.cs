@@ -130,7 +130,7 @@ public static class DataSeeder
             ProjectId = project1.Id,
             Title = "Setup Database",
             Description = "Configure database schema",
-            Status = TaskStatus.Done,
+            Status = ProjectManagement.Domain.Enums.TaskStatus.Done,
             AssignedTo = member1.Id,
             DueDate = DateTime.UtcNow.AddDays(-20),
             Project = project1
@@ -142,7 +142,7 @@ public static class DataSeeder
             ProjectId = project1.Id,
             Title = "Implement Authentication",
             Description = "JWT authentication system",
-            Status = TaskStatus.Doing,
+            Status = ProjectManagement.Domain.Enums.TaskStatus.Doing,
             AssignedTo = member1.Id,
             DueDate = DateTime.UtcNow.AddDays(10),
             Project = project1
@@ -154,7 +154,7 @@ public static class DataSeeder
             ProjectId = project1.Id,
             Title = "Create API Endpoints",
             Description = "RESTful API endpoints",
-            Status = TaskStatus.Todo,
+            Status = ProjectManagement.Domain.Enums.TaskStatus.Todo,
             AssignedTo = member2.Id,
             DueDate = DateTime.UtcNow.AddDays(20),
             Project = project1

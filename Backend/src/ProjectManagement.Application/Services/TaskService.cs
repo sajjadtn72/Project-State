@@ -70,7 +70,7 @@ public class TaskService : ITaskService
 
         var task = _mapper.Map<ProjectTask>(createTaskDto);
         task.Id = Guid.NewGuid();
-        task.Status = TaskStatus.Todo;
+        task.Status = ProjectManagement.Domain.Enums.TaskStatus.Todo;
 
         await _taskRepository.AddAsync(task, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -123,7 +123,7 @@ public class TaskService : ITaskService
             throw new KeyNotFoundException($"Task with ID {id} not found");
         }
 
-        if (Enum.TryParse<TaskStatus>(status, true, out var taskStatus))
+        if (Enum.TryParse<ProjectManagement.Domain.Enums.TaskStatus>(status, true, out var taskStatus))
         {
             task.Status = taskStatus;
             await _taskRepository.UpdateAsync(task, cancellationToken);

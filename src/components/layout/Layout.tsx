@@ -23,7 +23,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { user, logout, isAdmin } = useAuthStore();
 
   useEffect(() => {
-    useAuthStore.getState().checkAuth();
+    const checkAuth = async () => {
+      await useAuthStore.getState().checkAuth();
+    };
+    checkAuth();
   }, []);
 
   const menuItems = [

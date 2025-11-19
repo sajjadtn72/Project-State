@@ -6,10 +6,25 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // Ensure we use the current origin (Vite dev server) and not absolute URLs
+  withCredentials: false,
 });
 
 api.interceptors.request.use(
   (config) => {
+    // Ensure we're using a relative URL (Vite proxy will handle it)
+    if (config.url && !config.url.startsWith('http')) {
+      // Already relative, good
+    } else if (config.url && config.url.startsWith('http')) {
+      // If somehow an absolute URL got in, extract the path
+      try {
+        const url = new URL(config.url);
+        config.url = url.pathname + url.search;
+      } catch (e) {
+        // Invalid URL, keep as is
+      }
+    }
+    
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

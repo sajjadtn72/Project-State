@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Row, Col, Card, Statistic, List, Typography, Tag, Spin } from 'antd';
+import { Row, Col, Card, Statistic, List, Typography, Tag, Spin, Space } from 'antd';
 import { TeamOutlined, ProjectOutlined, CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { dashboardService } from '../../services/dashboardService';
 import dayjs from 'dayjs';
@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 const { Title } = Typography;
 
 const Dashboard: React.FC = () => {
-  const { data: dashboardData, isLoading } = useQuery({
+  const { data: dashboardData, isLoading, error } = useQuery({
     queryKey: ['dashboard'],
     queryFn: () => dashboardService.getDashboardData(),
   });
@@ -20,8 +20,21 @@ const Dashboard: React.FC = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="text-center p-12">
+        <Title level={3}>Error loading dashboard</Title>
+        <p>{(error as any)?.response?.data?.message || 'An error occurred'}</p>
+      </div>
+    );
+  }
+
   if (!dashboardData) {
-    return <div>No data available</div>;
+    return (
+      <div className="text-center p-12">
+        <Title level={3}>No data available</Title>
+      </div>
+    );
   }
 
   const getStatusColor = (type: string) => {

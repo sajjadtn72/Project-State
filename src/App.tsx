@@ -1,8 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ConfigProvider } from 'antd';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import PrivateRoute from './components/layout/PrivateRoute';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import PrivateRoute from './components/layout/PrivateRoute';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -11,45 +10,71 @@ import Projects from './pages/projects/Projects';
 import ProjectDetails from './pages/project-details/ProjectDetails';
 import TasksBoard from './pages/tasks/TasksBoard';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
-
-function App() {
+const App: React.FC = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ConfigProvider>
-        <Router>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/*"
-              element={
-                <PrivateRoute>
-                  <Layout>
-                    <Routes>
-                      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                      <Route path="/dashboard" element={<Dashboard />} />
-                      <Route path="/teams" element={<Teams />} />
-                      <Route path="/projects" element={<Projects />} />
-                      <Route path="/projects/:id" element={<ProjectDetails />} />
-                      <Route path="/tasks" element={<TasksBoard />} />
-                    </Routes>
-                  </Layout>
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </Router>
-      </ConfigProvider>
-    </QueryClientProvider>
+    <BrowserRouter>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Protected routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Dashboard />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/teams"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Teams />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Projects />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/projects/:id"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <ProjectDetails />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <TasksBoard />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+
+        {/* Default redirect */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

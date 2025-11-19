@@ -3,6 +3,7 @@ export interface User {
   fullName: string;
   email: string;
   role: 'Admin' | 'Member';
+  jobRole?: string;
   createdAt: string;
 }
 

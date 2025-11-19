@@ -14,7 +14,7 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         // Auth mappings
-        CreateMap<User, UserDto>()
+        CreateMap<User, DTOs.Auth.UserDto>()
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()));
 
         // Team mappings
@@ -49,11 +49,11 @@ public class MappingProfile : Profile
                 src.AssignedUser != null ? src.AssignedUser.FullName : null));
 
         CreateMap<CreateTaskDto, ProjectTask>()
-            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => TaskStatus.Todo));
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => ProjectManagement.Domain.Enums.TaskStatus.Todo));
 
         CreateMap<UpdateTaskDto, ProjectTask>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => 
-                Enum.Parse<TaskStatus>(src.Status)))
+                Enum.Parse<ProjectManagement.Domain.Enums.TaskStatus>(src.Status)))
             .ForMember(dest => dest.ProjectId, opt => opt.Ignore());
     }
 }

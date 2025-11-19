@@ -1,12 +1,12 @@
 using System.Text;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProjectManagement.Application.Interfaces;
 using ProjectManagement.Application.Interfaces.Services;
-using ProjectManagement.Application.Mappings;
 using ProjectManagement.Application.Services;
 using ProjectManagement.Application.Validation.Auth;
 using ProjectManagement.Domain.Entities;
@@ -20,8 +20,17 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Database
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        if (connectionString?.Contains(".db") == true)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(connectionString));
+        }
+        else
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
+        }
 
         // Repository pattern
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -43,9 +52,11 @@ public static class DependencyInjection
         services.AddScoped<IDashboardService, DashboardService>();
 
         // AutoMapper
-        services.AddAutoMapper(typeof(MappingProfile));
+        services.AddAutoMapper(typeof(ProjectManagement.Application.Mappings.MappingProfile));
 
         // FluentValidation
+        services.AddFluentValidationAutoValidation();
+        services.AddFluentValidationClientsideAdapters();
         services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
 
         return services;

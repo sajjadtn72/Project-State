@@ -79,7 +79,7 @@ const Register: React.FC = () => {
                     if (!value || getFieldValue('password') === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(new Error('Passwords do not match!'));
+                    return Promise.reject(new Error('The two passwords do not match!'));
                   },
                 }),
               ]}
@@ -89,12 +89,12 @@ const Register: React.FC = () => {
 
             <Form.Item>
               <Button type="primary" htmlType="submit" loading={loading} block>
-                Register
+                Sign Up
               </Button>
             </Form.Item>
 
             <Text>
-              Already have an account? <Link to="/login">Sign in here</Link>
+              Already have an account? <Link to="/login">Login here</Link>
             </Text>
           </Form>
         </Space>
@@ -104,4 +104,3 @@ const Register: React.FC = () => {
 };
 
 export default Register;
-

@@ -44,7 +44,7 @@ public class DashboardService : IDashboardService
 
         var activities = new List<RecentActivityDto>();
 
-        foreach (var project in projects.OrderByDescending(p => p.StartDate ?? p.Id).Take(5))
+        foreach (var project in projects.OrderByDescending(p => p.StartDate ?? DateTime.MinValue).Take(5))
         {
             activities.Add(new RecentActivityDto
             {
@@ -54,7 +54,7 @@ public class DashboardService : IDashboardService
             });
         }
 
-        foreach (var task in tasks.OrderByDescending(t => t.DueDate ?? t.Id).Take(5))
+        foreach (var task in tasks.OrderByDescending(t => t.DueDate ?? DateTime.MinValue).Take(5))
         {
             activities.Add(new RecentActivityDto
             {

@@ -9,16 +9,14 @@
     }
   },
   "profiles": {
-    "http": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+  "ProjectManagement.API": {
+    "commandName": "Project",
+    "dotnetRunMessages": true,
+    "launchBrowser": true,
+    "applicationUrl": "http://0.0.0.0:5000",
+    "environmentVariables": {
+      "ASPNETCORE_ENVIRONMENT": "Development"
     }
   }
 }
-
+}

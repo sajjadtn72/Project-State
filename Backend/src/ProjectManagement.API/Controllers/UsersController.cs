@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManagement.Application.DTOs.User;
 using ProjectManagement.Application.Interfaces.Services;
 
 namespace ProjectManagement.API.Controllers;
@@ -31,6 +32,18 @@ public class UsersController : ControllerBase
         {
             return NotFound();
         }
+        return Ok(user);
+    }
+
+    [HttpPost("personnel")]
+    public async Task<IActionResult> CreatePersonnel([FromBody] CreatePersonnelDto createPersonnelDto, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var user = await _userService.CreatePersonnelAsync(createPersonnelDto, cancellationToken);
         return Ok(user);
     }
 }
